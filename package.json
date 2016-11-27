@@ -1,22 +1,22 @@
 {
-  "name": "react-native-wifi-manager",
-  "version": "0.1.2",
-  "description": "Wifi Connection Manager for React Native on Android",
-  "main": "wifimanager.js",
+  "name": "react-native-open-wifi",
+  "version": "0.0.1",
+  "description": "Connect to open WiFi networks with React Native on Android",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skierkowski/react-native-wifi-manager.git"
+    "url": "git+https://github.com/javorosas/react-native-open-wifi.git"
   },
   "keywords": [
     "react-native",
-    "react-component",
     "android",
-    "wifi"
+    "wifi",
+    "open-wifi"
   ],
-  "author": "Maciej Skierkowski",
+  "authors": ["Javier Rosas"],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/skierkowski/react-native-wifi-manager/issues"
+    "url": "https://github.com/skierkowski/react-native-open-wifi/issues"
   },
-  "homepage": "https://github.com/skierkowski/react-native-wifi-manager#readme"
+  "homepage": "https://github.com/skierkowski/react-native-open-wifi#readme"
 }

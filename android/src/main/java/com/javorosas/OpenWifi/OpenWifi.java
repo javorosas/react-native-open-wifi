@@ -1,4 +1,4 @@
-package com.skierkowski.WifiManager;
+package com.javorosas.OpenWifi;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,12 +12,12 @@ import com.facebook.react.uimanager.ViewManager;
 import android.app.Activity;
 
 
-public class WifiManager implements ReactPackage {
+public class OpenWifi implements ReactPackage {
 
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
-    modules.add(new WifiManagerModule(reactContext));
+    modules.add(new OpenWifiModule(reactContext));
     return modules;
   }
   @Override

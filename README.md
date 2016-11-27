@@ -1,32 +1,26 @@
-## WiFi Manager for React Native (react-native-wifi-manager)
-[![npm version](https://badge.fury.io/js/react-native-wifi-manager.png)](http://badge.fury.io/js/react-native-wifi-manager)
+## react-native-open-wifi
 
-List, connect and get the status of the WiFi connection on the device.
+Connect to unsecured, open WiFi networks and get the status of the WiFi connection on the device.
+
+Based on the work of [skierkowski/react-native-wifi-manager](https://github.com/skierkowski/react-native-wifi-manager)
+
+**Android only**. Programatically connecting to WiFi networks on iOS is not possible. You should show instructions
+telling your user to connect manually.
 
 ## Installation
 
-First you need to install react-native-wifi-manager:
+First you need to install react-native-open-wifi:
 
 ```javascript
 npm install react-native-wifi-manager --save
-```
-
-* In `android/app/src/main/AndroidManifest.xml` add these permissions inside `<manifest/>`.
-
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 ```
 
 * In `android/setting.gradle`
 
 ```gradle
 ...
-include ':WifiManager', ':app'
-project(':WifiManager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wifi-manager/android')
+include ':OpenWifi', ':app'
+project(':OpenWifi').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-open-wifi/android')
 ```
 
 * In `android/app/build.gradle`
@@ -35,16 +29,16 @@ project(':WifiManager').projectDir = new File(rootProject.projectDir, '../node_m
 ...
 dependencies {
     ...
-    compile project(':WifiManager')
+    compile project(':OpenWifi')
 }
 ```
 
-* register module (in MainActivity.java)
+* register module (in MainActivity.java or MainApplication.java)
 
 On newer versions of React Native (0.18+):
 
 ```java
-import com.skierkowski.WifiManager.*;  // <--- import
+import com.skierkowski.OpenWifi.*;  // <--- import
 
 public class MainActivity extends ReactActivity {
   ......
@@ -56,7 +50,7 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-        new WifiManager(), // <------ add here
+        new OpenWifi(), // <------ add here
         new MainReactPackage());
     }
 }
@@ -65,7 +59,7 @@ public class MainActivity extends ReactActivity {
 On older versions of React Native:
 
 ```java
-import com.skierkowski.WifiManager.*;  // <--- import
+import com.skierkowski.OpenWifi.*;  // <--- import
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
   ......
@@ -80,7 +74,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
       .setBundleAssetName("index.android.bundle")
       .setJSMainModuleName("index.android")
       .addPackage(new MainReactPackage())
-      .addPackage(new WifiManager())              // <------ add here
+      .addPackage(new OpenWifi())              // <------ add here
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();
@@ -99,41 +93,22 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 ### Load module
 ```javascript
-var WifiManager = require('react-native-wifi-manager');
-```
-
-### List available networks (list)
-```javascript
-loadWifiListData: function() {
-    WifiManager.list(
-        (wifiArray) => {
-            this.setState({
-                // wifiArray is an array of strings, each string being the SSID
-                dataSource: this.state.dataSource.cloneWithRows(wifiArray),
-            });
-        },
-        (msg) => {
-            console.log(msg);
-        },
-    );
-},
+var OpenWifi = require('react-native-open-wifi');
 ```
 
 ### Connect to a new network (connect)
 ```javascript
 // Attempts to connect to the network specified. This is an async call. Listen to connectionStatus for status
-WifiManager.connect(ssid,password);
+OpenWifi.connect(ssid,password);
 ```
 
 ### Get status of connection (status)
 ```javascript
-checkConnectionStatus: function() {
-    // Possible States: 'CONNECTED', 'CONNECTING', 'DISCONNECTED', 'DISCONNECTING', 'SUSPENDED', 'UNKOWN'
-    // from: http://developer.android.com/reference/android/net/NetworkInfo.State.html
-    WifiManager.status((status) => {
-        if (status == 'CONNECTED') {
-            this.navigateToActivation();
-        }
-    });
-},
-  ```
+// Possible States: 'CONNECTED', 'CONNECTING', 'DISCONNECTED', 'DISCONNECTING', 'SUSPENDED', 'UNKOWN'
+// from: http://developer.android.com/reference/android/net/NetworkInfo.State.html
+OpenWifi.status((status) => {
+  if (status == 'CONNECTED') {
+    this.navigateToActivation();
+  }
+});
+```
