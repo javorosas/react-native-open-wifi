@@ -2,7 +2,7 @@
 
 Connect to unsecured, open WiFi networks and get the status of the WiFi connection on the device.
 
-Based on the work of [skierkowski/react-native-wifi-manager](https://github.com/skierkowski/react-native-wifi-manager)
+Based on the work of [skierkowski/react-native-open-wifi-manager](https://github.com/skierkowski/react-native-wifi-manager)
 
 **Android only**. Programatically connecting to WiFi networks on iOS is not possible. You should show instructions
 telling your user to connect manually.
@@ -12,7 +12,7 @@ telling your user to connect manually.
 First you need to install react-native-open-wifi:
 
 ```javascript
-npm install react-native-wifi-manager --save
+npm install react-native-open-wifi --save
 ```
 
 * In `android/setting.gradle`
