@@ -98,17 +98,16 @@ var OpenWifi = require('react-native-open-wifi');
 
 ### Connect to a new network (connect)
 ```javascript
-// Attempts to connect to the network specified. This is an async call. Listen to connectionStatus for status
-OpenWifi.connect(ssid,password);
+// Attempts to connect to the network specified.
+// The promise will be rejected if not connected after 20 seconds.
+OpenWifi.connect(ssid)
+  .then(() => console.log('Successfully connected to', ssid))
+  .catch(err => console.log('Check message for failure info'));
 ```
 
-### Get status of connection (status)
-```javascript
-// Possible States: 'CONNECTED', 'CONNECTING', 'DISCONNECTED', 'DISCONNECTING', 'SUSPENDED', 'UNKOWN'
-// from: http://developer.android.com/reference/android/net/NetworkInfo.State.html
-OpenWifi.status((status) => {
-  if (status == 'CONNECTED') {
-    this.navigateToActivation();
-  }
-});
+### TODO
+```
+[ ] Make timeout configurable
+[ ] Resolve connect promise immediately if the currentSSID equals the wanted SSID
+[ ] Expose more methods, such as getting current SSID
 ```
