@@ -50,15 +50,14 @@ public class OpenWifiModule extends ReactContextBaseJavaModule {
     WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
     List<WifiConfiguration> mWifiConfigList = wifiManager.getConfiguredNetworks();
     String comparableSSID = ('"' + ssid + '"'); //Add quotes because wifiConfig.SSID has them
-    for(WifiConfiguration wifiConfig : mWifiConfigList){
-      if(wifiConfig.SSID.equals(comparableSSID)){
+    for (WifiConfiguration wifiConfig : mWifiConfigList) {
+      if (wifiConfig.SSID.equals(comparableSSID)) {
         int networkId = wifiConfig.networkId;
         wifiManager.removeNetwork(networkId);
         wifiManager.saveConfiguration();
       }
     }
     // Add configuration to Android wifi manager settings...
-    WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
     int networkId = wifiManager.addNetwork(conf);
 
     // Enable it so that android can connect
