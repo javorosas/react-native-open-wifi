@@ -105,8 +105,9 @@ OpenWifi.connect(ssid)
   .catch(err => console.log('Check message for failure info'));
 ```
 
-### TODO
+### TODO (by priority)
 ```
+[ ] Change connect result to polling the current SSID
 [ ] Make timeout configurable
 [ ] Resolve connect promise immediately if the currentSSID equals the wanted SSID
 [ ] Expose more methods, such as getting current SSID
