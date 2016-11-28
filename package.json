@@ -1,6 +1,6 @@
 {
   "name": "react-native-open-wifi",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Connect to open WiFi networks with React Native on Android",
   "main": "index.js",
   "repository": {
