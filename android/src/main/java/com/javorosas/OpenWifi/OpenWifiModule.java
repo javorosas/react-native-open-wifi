@@ -1,34 +1,14 @@
 package com.javorosas.OpenWifi;
 
-import com.facebook.react.uimanager.*;
 import com.facebook.react.bridge.*;
-import com.facebook.systrace.Systrace;
-import com.facebook.systrace.SystraceMessage;
-import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
 
-import android.os.Bundle;
-import android.content.Context;
 import java.util.List;
-import com.facebook.systrace.Systrace;
-import com.facebook.systrace.SystraceMessage;
-
-import com.facebook.react.LifecycleState;
-import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactRootView;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.shell.MainReactPackage;
-import com.facebook.soloader.SoLoader;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 public class OpenWifiModule extends ReactContextBaseJavaModule {
   public OpenWifiModule(ReactApplicationContext reactContext) {
@@ -37,7 +17,7 @@ public class OpenWifiModule extends ReactContextBaseJavaModule {
 
   @Override
   public String getName() {
-    return "OpenWifi";
+    return "RNOpenWifi";
   }
 
   @ReactMethod
@@ -71,6 +51,19 @@ public class OpenWifiModule extends ReactContextBaseJavaModule {
     ConnectivityManager connManager = (ConnectivityManager) getReactApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
     statusResult.invoke(mWifi.getState().toString());
+  }
+
+  @ReactMethod
+	public void getSSID(Callback callback) {
+    WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    WifiInfo info = wifiManager.getConnectionInfo();
+
+    // This value should be wrapped in double quotes, so we need to unwrap it.
+    String ssid = info.getSSID();
+    if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
+      ssid = ssid.substring(1, ssid.length() - 1);
+    }
+    callback.invoke(ssid);
   }
 
   private static Integer findNetworkInExistingConfig(WifiManager wifiManager, String ssid) {
