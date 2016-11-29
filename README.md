@@ -1,5 +1,8 @@
 ## react-native-open-wifi
 
+[![npm version](https://badge.fury.io/js/react-native-open-wifi.svg)](https://badge.fury.io/js/react-native-open-wifi)
+[![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
+
 Connect to unsecured, open WiFi networks and get the status of the WiFi connection on the device.
 
 Based on the work of [skierkowski/react-native-open-wifi-manager](https://github.com/skierkowski/react-native-wifi-manager)
