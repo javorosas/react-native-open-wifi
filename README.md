@@ -107,8 +107,8 @@ OpenWifi.connect(ssid)
 
 ### TODO (by priority)
 ```
-[ ] Change connect result to polling the current SSID
-[ ] Make timeout configurable
-[ ] Resolve connect promise immediately if the currentSSID equals the wanted SSID
+[x] Change connect result to polling the current SSID
+[x] Make timeout configurable
+[x] Resolve connect promise immediately if the currentSSID equals the wanted SSID
 [ ] Expose more methods, such as getting current SSID
 ```
