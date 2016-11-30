@@ -11,7 +11,7 @@ var OpenWifi = {
 const ONE_SECOND = 1000;
 const POLLING_FREQUENCY = 500;
 
-const connectToSsid = (ssid, { timeout = 20 * ONE_SECOND }) => {
+function connectToSsid (ssid, { timeout = 20 * ONE_SECOND } = {}) {
   return new Promise((resolve, reject) => {
     RNOpenWifi.getSSID((currentSsid) => {
       if (currentSsid === ssid) {
@@ -40,6 +40,6 @@ const connectToSsid = (ssid, { timeout = 20 * ONE_SECOND }) => {
       checkSSID();
     });
   });
-};
+}
 
 module.exports = OpenWifi;

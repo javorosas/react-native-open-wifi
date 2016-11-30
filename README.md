@@ -103,7 +103,7 @@ var OpenWifi = require('react-native-open-wifi');
 ```javascript
 // Attempts to connect to the network specified.
 // The promise will be rejected if not connected after 20 seconds.
-OpenWifi.connect(ssid)
+OpenWifi.connect(ssid, { timeout: 10000 }) // Timeout (optional) 10 seconds
   .then(() => console.log('Successfully connected to', ssid))
   .catch(err => console.log('Check message for failure info'));
 ```
