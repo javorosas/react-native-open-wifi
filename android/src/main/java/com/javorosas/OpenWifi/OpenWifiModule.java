@@ -1,6 +1,7 @@
 package com.javorosas.OpenWifi;
 
 import com.facebook.react.bridge.*;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiConfiguration;
@@ -58,12 +59,16 @@ public class OpenWifiModule extends ReactContextBaseJavaModule {
     WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
     WifiInfo info = wifiManager.getConnectionInfo();
 
-    // This value should be wrapped in double quotes, so we need to unwrap it.
-    String ssid = info.getSSID();
-    if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-      ssid = ssid.substring(1, ssid.length() - 1);
+    if (info.getSupplicantState() == SupplicantState.COMPLETED) {
+      // This value should be wrapped in double quotes, so we need to unwrap it.
+      String ssid = info.getSSID();
+      if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
+        ssid = ssid.substring(1, ssid.length() - 1);
+      }
+      callback.invoke(ssid);
+    } else {
+      callback.invoke(null);
     }
-    callback.invoke(ssid);
   }
 
   private static Integer findNetworkInExistingConfig(WifiManager wifiManager, String ssid) {
