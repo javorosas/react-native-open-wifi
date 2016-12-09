@@ -5,13 +5,14 @@
 var { RNOpenWifi } = require('react-native').NativeModules;
 
 var OpenWifi = {
-  connect: connectToSsid
+  connect: connectToSsid,
+  isMobileDataEnabled: isMobileDataEnabled
 };
 
 const ONE_SECOND = 1000;
 const POLLING_FREQUENCY = 500;
 
-function connectToSsid (ssid, { timeout = 20 * ONE_SECOND } = {}) {
+function connectToSsid (ssid, { timeout = 10 * ONE_SECOND } = {}, debug) {
   return new Promise((resolve, reject) => {
     RNOpenWifi.getSSID((currentSsid) => {
       if (currentSsid === ssid) {
@@ -22,22 +23,32 @@ function connectToSsid (ssid, { timeout = 20 * ONE_SECOND } = {}) {
       RNOpenWifi.connect(ssid);
       // Check every 500 milliseconds if we are connected to the right SSID
       var timeElapsed = 0;
-      const checkSSID = () => {
-        setTimeout(() => {
+      function checkSSID () {
+        setTimeout(function () {
           timeElapsed += POLLING_FREQUENCY;
           RNOpenWifi.getSSID((currentSsid) => {
-            console.log(currentSsid);
-            if (currentSsid === ssid) {
-              resolve();
-            } else if (timeElapsed >= timeout) {
-              reject(new Error('Couldn\'t find the network'));
-            } else {
-              checkSSID();
-            }
+            RNOpenWifi.status(status => {
+              // console.log('ssid:', currentSsid, 'status:', status);
+              if (currentSsid === ssid && status === 'COMPLETED') {
+                resolve();
+              } else if (timeElapsed >= timeout) {
+                reject(new Error('Couldn\'t find the network'));
+              } else {
+                checkSSID();
+              }
+            });
           });
         }, POLLING_FREQUENCY);
-      };
+      }
       checkSSID();
+    });
+  });
+}
+
+function isMobileDataEnabled () {
+  return new Promise((resolve, reject) => {
+    RNOpenWifi.isMobileDataEnabled(isEnabled => {
+      resolve(isEnabled);
     });
   });
 }
