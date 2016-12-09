@@ -5,9 +5,8 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiConfiguration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.content.Context;
+import android.provider.Settings;
 
 import java.util.List;
 
@@ -49,26 +48,37 @@ public class OpenWifiModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void status(Callback statusResult) {
-    ConnectivityManager connManager = (ConnectivityManager) getReactApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-    statusResult.invoke(mWifi.getState().toString());
+    WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    WifiInfo info = wifiManager.getConnectionInfo();
+    if (info == null) {
+      statusResult.invoke("");
+      return;
+    }
+    SupplicantState state = info.getSupplicantState();
+    statusResult.invoke(state.toString());
+  }
+
+  @ReactMethod
+  public void isMobileDataEnabled(Callback callback) {
+    boolean mobileYN;
+    Context context = getReactApplicationContext();
+    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      mobileYN = Settings.Global.getInt(context.getContentResolver(), "mobile_data", 1) == 1;
+    } else {
+      mobileYN = Settings.Secure.getInt(context.getContentResolver(), "mobile_data", 1) == 1;
+    }
+    callback.invoke(mobileYN);
   }
 
   @ReactMethod
 	public void getSSID(Callback callback) {
     WifiManager wifiManager = (WifiManager) getReactApplicationContext().getSystemService(Context.WIFI_SERVICE);
     WifiInfo info = wifiManager.getConnectionInfo();
-
-    if (info.getSupplicantState() == SupplicantState.COMPLETED) {
-      // This value should be wrapped in double quotes, so we need to unwrap it.
-      String ssid = info.getSSID();
-      if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-        ssid = ssid.substring(1, ssid.length() - 1);
-      }
-      callback.invoke(ssid);
-    } else {
-      callback.invoke(null);
+    String ssid = info.getSSID();
+    if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
+      ssid = ssid.substring(1, ssid.length() - 1);
     }
+    callback.invoke(ssid);
   }
 
   private static Integer findNetworkInExistingConfig(WifiManager wifiManager, String ssid) {
