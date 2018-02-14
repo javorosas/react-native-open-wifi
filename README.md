@@ -41,11 +41,11 @@ dependencies {
 On newer versions of React Native (0.18+):
 
 ```java
-import com.skierkowski.OpenWifi.*;  // <--- import
+import com.javorosas.OpenWifi.*;  // <--- import
 
 public class MainActivity extends ReactActivity {
   ......
-  
+
   /**
    * A list of packages used by the app. If the app uses additional views
    * or modules besides the default ones, add more packages here.
@@ -53,7 +53,7 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-        new OpenWifi(), // <------ add here
+        new OpenWifiPackage(), // <------ add here
         new MainReactPackage());
     }
 }
@@ -62,7 +62,7 @@ public class MainActivity extends ReactActivity {
 On older versions of React Native:
 
 ```java
-import com.skierkowski.OpenWifi.*;  // <--- import
+import com.javorosas.OpenWifi.*;  // <--- import
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
   ......
@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
       .setBundleAssetName("index.android.bundle")
       .setJSMainModuleName("index.android")
       .addPackage(new MainReactPackage())
-      .addPackage(new OpenWifi())              // <------ add here
+      .addPackage(new new OpenWifiPackage())              // <------ add here
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();
