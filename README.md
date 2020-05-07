@@ -18,7 +18,7 @@ First you need to install react-native-open-wifi:
 npm install react-native-open-wifi --save
 ```
 
-* In `android/setting.gradle`
+* In `android/settings.gradle`
 
 ```gradle
 ...
